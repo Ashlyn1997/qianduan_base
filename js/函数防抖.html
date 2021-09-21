@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数防抖</title>
+</head>
+<body>
+<input type="text" id="input" />
+<script>
+    let input = document.getElementById('input')
+    function debounce(delay, callback) {
+        let timer
+        return function(value) {
+            clearTimeout(timer)
+            //我们想清除的是setTimeout 我们应该存储这个timer的变量
+            //timer变量需要一直保存在内存中
+            //既然你不想打印之前已经输入的结果 请求以前触发的定时器
+            //我们应该存储这个timer的变量
+            //一直在内存内存当中 内存的泄露 闭包
+            timer = setTimeout(function () {
+                callback(value)
+            }, delay)
+        }
+    }
+
+    function fn (value) {
+        console.log(value)
+    }
+
+    //我需要的是 首先 输入框的结果只出现一次 是在我键盘抬起不再输入后的1秒之后
+    let debounceFunc = debounce(1000)
+    input.addEventListener('keyup', function (e) {
+        debounceFunc(e.target.value)
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //方法一：双重for循环+splice
+    function unique1(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = i + 1; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    arr.splice(j, 1)
+                    j--
+                }
+            }
+        }
+        return arr
+    }
+
+    //方法二：indexof方法和新数组
+    function unique2(arr) {
+        let array = []
+        for (let i = 0; i < arr.length; i++) {
+            if (array.indexof(arr[i]) === -1) { //或者使用inculdes()判断是否含有某值
+                //indexof返回-1表示新数组只不存在该元素
+                array.push(arr[i]) //是新数组里没有的元素就push入
+            }
+        }
+        return array
+    }
+
+    //方法三：使用sort方法先排序，使相同的元素都相邻
+    function unique3(arr) {
+        arr = arr.sort((a, b) => a - b)
+        let array = [arr[0]]
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] !== arr[i-1]) {
+                array.push(arr[i])
+            }
+        }
+        return array
+    }
+
+    //方法四：利用set
+    function unique4(arr) {
+        const result = new Set(arr) //Set构造函数可以接收一个数组(或者具有iterable接口的其他数据结构)作为参数
+        return [...result]
+    }
+
+    //方法五：使用map
+    function unique5(arr) {
+        let map = new Map()
+        let array = new Array() //数组用于返回结果
+        for (let i = 0; i < arr.length; i++) {
+            if (map.has(arr[i])) {
+                map.set(arr[i], true)
+            } else {
+                map.set(arr[i], false)
+                array.push(arr[i])
+            }
+        }
+        return array
+    }
+
+    //方法六：使用filter
+    function unique6(arr) {
+        return arr.filter((item, index, arr) => {
+            //当前元素，在原始数组中第一个索引==当前索引值，否则返回当前元素
+            //不是那么就证明是重复项
+            return arr.indexOf(item) === index
+        })
+    }
+    /*filter英文意思是筛选，filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。
+    其回调函数包含三个参数(数组中当前正在处理的元素,
+    在处理的元素在数组中的索引(可选),
+    调用了 filter 的数组本身(可选))*/
+
+    //方法七：reduce+includes
+    function unique7(arr) {
+        let result = arr.reduce((acc, cur) => {
+            if (!acc.includes(cur)) {
+                acc.push(cur)
+            }
+            return acc
+        },[])
+        return result
+    }
+</script>
+</body>
+</html>

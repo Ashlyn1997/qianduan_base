@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水平垂直居中</title>
+    <style>
+        #father1 {
+            width: 500px;
+            height: 300px;
+            background-color: skyblue;
+            text-align: center;
+        }
+        #father2 {
+            display: block;
+            width: 500px;
+            height: 300px;
+            background-color: yellow;
+            text-align: center;
+        }
+        #father3 {
+            width: 500px;
+            height: 300px;
+            background-color: #4cae4c;
+        }
+        #son3 {
+            width: 100px;
+            height: 100px;
+            background-color: #5bc0de;
+            margin: 0 auto;
+        }
+        #father4 {
+            width: 500px;
+            height: 300px;
+            background-color: red;
+            text-align: center;
+        }
+        #son4 {
+            background-color: green;
+            display: inline;
+        }
+        #father5 {
+            width: 500px;
+            height: 300px;
+            background-color: orange;
+            position: relative;
+        }
+        #son5 {
+            width: 100px;
+            height: 100px;
+            background-color: blanchedalmond;
+            position: absolute;
+            left: 50%;
+            margin-left: -50px;
+        }
+        #father6 {
+            width: 500px;
+            height: 300px;
+            background-color: lightcoral;
+            position: relative;
+        }
+        #son6 {
+            height: 100px;
+            background-color: #5bc0de;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #father7 {
+            width: 500px;
+            height: 300px;
+            background-color: pink;
+            display: flex;
+            justify-content: center;
+        }
+        #son7 {
+            width: 100px;
+            height: 100px;
+            background-color: #5cb85c;
+        }
+        #father8 {
+            width: 500px;
+            height: 300px;
+            background-color: skyblue;
+        }
+
+        #son8 {
+            background-color: green;
+            line-height: 300px;
+        }
+        #father9 {
+            width: 500px;
+            height: 300px;
+            background-color: skyblue;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        #son9 {
+            background-color: green;
+        }
+        #father10 {
+            width: 500px;
+            height: 300px;
+            background-color: salmon;
+            position: relative;
+        }
+        #son10 {
+            height: 100px;
+            background-color: rosybrown;
+            position: absolute;
+            top: 50%;
+            margin-top: -50px;
+        }
+        #father11 {
+            width: 500px;
+            height: 300px;
+            background-color: skyblue;
+            position: relative;
+        }
+        #son11 {
+            width: 100px;
+            background-color: #5cb85c;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <!--水平居中-->
+    <!--1.行内元素
+    >>首先看它的父元素是不是块级元素，如果是，则直接给父元素设置 text-align: center;-->
+    <div id="father1">
+        <span id="son1">我是行内元素1</span>
+    </div>
+    <br>
+   <!--如果不是，则先将其父元素设置为块级元素-->
+    <span id="father2">
+        <span is="son2">我是行内元素2</span>
+    </span>
+    <br>
+    <!--2.块级元素-->
+    <!--宽度确定-->
+    <div id="father3">
+        <div id="son3">我是块级元素1</div>
+    </div>
+    <br>
+    <!--宽度不确定-->
+    <div id="father4">
+        <div id="son4">我是块级元素2</div>
+    </div>
+    <br>
+    <!--使用定位属性，设置父元素为相对定位，再设置子元素为绝对定位-->
+    <!--宽度确定-->
+    <div id="father5">
+        <div id="son5">我是块级元素3</div>
+    </div>
+    <!--宽度不确定-->
+    <div id="father6">
+        <div id="son6">我是块级元素4</div>
+    </div>
+    <!--使用flexbox布局实现-->
+    <!--使用flexbox布局，只需要给待处理的块状元素的父元素添加属性 display: flex; justify-content: center;-->
+    <div id="father7">
+        <div id="son7">我是块级元素5</div>
+    </div>
+    <br>
+    <!--垂直居中-->
+    <!--1.行内元素-->
+    <!--单行的行内元素-->
+    <div id="father8">
+        <div id="son8">我是单行的行内元素</div>
+    </div>
+    <br>
+    <!--多行的行内元素-->
+    <div id="father9">
+        <span id="son9">我是多行的行内元素我是多行的行内元素我是多行的行内元素我是多行的行内元素我是多行的行内元素我是多行的行内元素我是多行的行内元素我是多行的行内元素</span>
+    </div>
+    <br>
+    <!--2.块级元素-->
+    <!--position定位-->
+    <!--高度确定-->
+    <div id="father10">
+        <div id="son10">我是块级元素</div>
+    </div>
+    <!--高度不确定-->
+    <div id="father11">
+        <div id="son11">我是块级元素</div>
+    </div>
+</body>
+</html>

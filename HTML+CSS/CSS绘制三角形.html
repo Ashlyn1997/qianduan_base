@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS绘制三角形</title>
+    <style>
+        #div1 {
+            width: 50px;
+            height: 50px;
+            border: 2px solid orange;
+        }
+        #div2 {
+            width: 50px;
+            height: 50px;
+            border: 40px solid;
+            border-color: orange blue red green;
+        }
+        #div3 {
+            width: 0;
+            height: 0;
+            border: 40px solid;
+            border-color: orange blue red green;
+        }
+        #div4 {
+            width: 0;
+            height: 0;
+            border: 40px solid;
+            /*顺序为上 右 下 左 顺时针*/
+            /*border-color: transparent transparent red transparent;*/
+            border-color: transparent transparent red;
+        }
+        #div5 {
+            width: 0;
+            height: 0;
+            border-width: 0 40px 40px;
+            border-style: solid;
+            border-color: transparent transparent red;
+        }
+        #blue {
+            position: relative;
+            width: 0;
+            height: 0;
+            border-width: 0 40px 40px;
+            border-style: solid;
+            border-color: transparent transparent blue;
+        }
+        #blue:after {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 1px;
+            left: -38px;
+            border-width: 0 38px 38px;
+            border-style: solid;
+            border-color: transparent transparent yellow;
+        }
+    </style>
+</head>
+<body>
+<!--这是我们平常使用border最普遍的情况——往往只给border一个较小的宽度（通常为1-2px）；
+    然而这样的日常用法就会容易让大家对border的形成方式产生误解，即认为元素的border是由四个矩形边框拼接而成。
+    实际上，元素的border是由三角形组合而成，为了说明这个问题，我们可以增大border的宽度，并为各border边设置不同的颜色：
+-->
+    <div id="div1">div1</div>
+    <br>
+    <div id="div2">div2</div>
+    <br>
+<!--既然如此，那么更进一步，把元素的内容尺寸设置为0会发生什么情况呢？-->
+    <div id="div3">div3</div>
+    <br>
+<!--那么，为了实现最终的效果，即保留最下方的三角形，还应该怎么做？很简单，我们只需要把其它border边的颜色设置为白色或透明色：-->
+    <div id="div4">div4</div>
+    <br>
+<!-- 最终的简单三角形就绘制出来了。同理，如果想要得到其它边上的三角形，只需要将剩余的border边颜色设置为白色或透明色即可。
+不过，被“隐藏”的上border仍然占据着空间，要想使得绘制出的三角形尺寸最小化，还需要将上border的宽度设置为0（其它情况同理）：-->
+    <div id="div5">div5</div>
+    <br>
+<!--实现带边框的三角形：带边框的三角形是指为三角形添加其它颜色的边框，如同为元素添加border一样：-->
+<!--由于不能继续通过为已有三角形设置border的方法来为其设置边框（因为三角形本身就是利用border实现的），
+    所以只好另想办法。而能想到的一个最自然的方法就是三角形叠放，即把当前三角形叠放在更大的三角形上方，
+    上图所示的实现方法就是把黄色三角形放在了尺寸更大的蓝色三角形上。-->
+    <div id="blue">div6</div>
+<!--随后需要定义黄色三角形，由于黄色三角形的定位需要参考蓝色三角形的位置，所以需要用到绝对定位方法。
+    为此还需要将黄色三角形作为蓝色三角形的子元素。一个可行的办法是在蓝色三角形内部定义一个额外的标签以表示黄色三角形，
+    但为了节约标签起见，更好的办法是使用伪元素-->
+</body>
+</html>

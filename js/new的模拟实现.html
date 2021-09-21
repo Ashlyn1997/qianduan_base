@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>new的模拟实现</title>
+</head>
+<body>
+<script>
+    //使用new调用构造函数会执行如下操作：
+    //1、在内存中创建一个新对象
+    //2、这个新对象__proto__指针被赋值为构造函数的prototype属性
+    //3、构造函数内部的this被赋值为这个新对象（即this指向这个新对象）
+    //4、执行构造函数内部的代码（给新对象添加属性）
+    //5、如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象
+    function Otaku(name, age) {
+        this.name = name
+        this.age = age
+        this.habit = 'Games'
+    }
+    Otaku.prototype.strength = 60
+    Otaku.prototype.sayYourName = function () {
+        console.log('I am ' + this.name)
+    }
+    //使用new操作符
+    let person = new Otaku('Kevin', 18)
+    console.log(person.name)
+    console.log(person.habit)
+    console.log(person.strength)
+    person.sayYourName()
+    console.log('------------------------------')
+    //模拟new操作
+    function myNew(Fn, ...args) { //参数为构造函数以及构造函数的参数
+        let obj = new Object()
+        obj.__proto__ = Fn.prototype
+        //let obj = Object.create(Fn.prototype)
+        let res = Fn.apply(obj,args)
+        return res instanceof Object ? res : obj
+    }
+    let person2 = myNew(Otaku, 'Kevin', 18)
+    console.log(person2.name)
+    console.log(person2.habit)
+    console.log(person2.strength)
+    person2.sayYourName()
+</script>
+</body>
+</html>

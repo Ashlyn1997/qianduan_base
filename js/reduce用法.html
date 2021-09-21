@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reduce用法</title>
+</head>
+<body>
+<div>1</div>
+<div>2</div>
+<div>3</div>
+<div>4</div>
+<ul>
+    <li>a</li>
+    <li>b</li>
+    <li>c</li>
+</ul>
+<script>
+    /*reduce介绍：
+    MDN中对其的描述是：reduce() 方法对数组中的每个元素执行一个由您提供的reducer函数(升序执行)，将其结果汇总为单个返回值。
+    其能做的功能很多，通过回调函数实现。
+    reduce的第一个参数是个回调函数，其有四个参数(累加器，当前值，当前索引，原数组)，后两个参数可选。
+    第二个参数是回调函数的第一个参数累加器的初始值(很重要)
+    注意：不给初始值，那么初始值就是原数组的第一个元素，计算从第二个元素开始。给了初始值就是从第一个元素开始。
+    * */
+
+    //累加求和
+    let result1=[1,2,3,4].reduce((acc,cur)=>{
+        return acc+cur;//acc为累加器(初始值为数组第一个元素)，cur为当前元素
+    })
+    console.log(result1);//输出10
+    //因为没初始值，所以从数组第二个元素开始计算，所以处理上面数组，回调函数共运行了3次
+
+    let res2=[1,2,3,4].reduce((acc,cur,index,o)=>{
+        return acc+cur;
+    },10)
+    console.log(res2);//输出20
+    //因为有初始值，所以从数组第一个元素开始计算，所以处理上面数组，回调函数共运行了4次
+
+    //按属性对object进行分类
+    const bills=[{type:'transfer',momey:233},
+        {type:'study',momey:341},
+        {type:'shop',momey:821},
+        {type:'transfer',money:821},
+        {type:'study',momey:821}
+    ]
+
+    let res3 = bills.reduce((acc, cur) => {
+        if (!acc[cur.type]) { //遇到不存在的类型，就新建一个空数组来装
+            acc[cur.type] = [] //二维数组
+        }
+        acc[cur.type].push(cur)
+        return acc
+    },[]) //为累加器设置初始值为空数组，作为分类用的容器
+    console.log(res3)
+
+    /*题目描述：请使用原声js实现一个方法，判断html中出现次数最多的标签，并统计这个次数
+    * 1、document.querySelector(*)：查询页面内所有标签，*表示选择器，也就是全部
+    * 2、Object.entries()
+    *    Object.entries()返回一个数组，其元素是与直接在object上找到的可枚举属性键值对相对应的数组。
+    *    属性的顺序与通过手动循环对象的属性值所给出的顺序相同。
+    *    简单的来说就是可以把对象的每个属性变为一个数组，这个数组里有两个值，一个为属性名，一个为属性值。
+    *    例如：Object.entires({a:1,b:2,c:3})会得到[ [ 'a', 1 ], [ 'b', 2 ], [ 'c', 3 ] ]
+    * */
+
+    /*1. 先获得含有所有标签的NodeList数组，然后将其加工为只有标签名的数组，
+    *    接着使用reduce得到一个对象，以标签名为属性名，标签数量为属性值的对象。
+    * 2. 将上一步得到的对象用Object.entires()变为个二维数组，
+    *    再使用reduce对其处理，得到数量最多的那个标签(比较每个数组的tags[1],返回数组的tags[0])。
+    */
+
+    // 最大数的思路是JS 必考的，使用reduce
+    const maxBy=function(list,tag){
+        return list.reduce((x,y) => {
+                //根据reduce方法获得数量最大的那个标签
+                return tag(x)>tag(y)?x:y //实际上就是x[1] : y[1] ? x : y
+            }
+        )
+    }
+    function getFrequentTag(){
+        //得到reduce 需要的数组
+        console.log([...document.querySelectorAll('*')].map(x=>x.tagName))
+        const tags=[...document.querySelectorAll('*')].map(x=>x.tagName).reduce((acc,tag)=>{
+            acc[tag]=acc[tag]?acc[tag]+1:1;
+            //数组存在该元素，就值+1，否则创建元素，设置值为1
+            return acc;//得到以tag名为属性名，数量为属性值的对象
+        },{})//初始值为对象
+        console.log(tags)
+        console.log(Object.entries(tags))
+        return maxBy(Object.entries(tags),tag => tag[1])
+        //tag=>tag[1]这个函数表示return数组的第二个值，也就是标签的数量
+    }
+    console.log(getFrequentTag());
+
+
+    /*扩展：如何得到第二多的标签，以及数量第X大的标签呢？
+           对上面的解法进行进一步的优化，我们要做的不在是得到最大，而是要得到任意大的标签！
+           使用sort方法改进，对list数组进行排序，再到list数组中取相应位置的数值。*/
+        //获得第X多的标签
+        window.onload=function(){
+            // 最大数的思路是JS 必考的 使用reduce
+            const maxByx=function(list,tag,x){
+                list=list.sort((a,b)=>{
+                    return tag(b)-tag(a);//数量从大到小排序 //实际上就是b[1]-a[1]
+                })
+                return list[x];
+            }
+            function getFrequentTag(){
+                //得到reduce 需要的数组
+                const tags=[...document.querySelectorAll('*')].map(x=>x.tagName).reduce((acc,tag)=>{
+                    acc[tag]=acc[tag]?acc[tag]+1:1;//数组存在该元素，就值+1，否则创建元素，设置值为1
+                    return acc;//得到以tag名为属性名，数量为属性值的对象
+                },{})//初始值为对象
+                return maxByx(Object.entries(tags),tag=>tag[1],1)
+                //第三个参数用于指定要第几大的,这里指定第二大的
+                //tag=>tag[1]这个函数表示return数组的第二个值，也就是标签的数量
+            }
+            console.log(getFrequentTag());
+        }
+    //根据上面代码return maxByx(Object.entries(tags),tag=>tag[1],1)，我们只需要指定第三个参数值就能够得到我们要的数量排名第X的的那个标签。
+</script>
+</body>
+</html>

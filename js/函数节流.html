@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数节流</title>
+</head>
+<body>
+<button id="button">点击</button>
+<script>
+    function throttle(func, wait) {
+        //会执行你点击了多少次 就会执行多少次
+        //这不是我们想要的 我们想要的是 时间是一秒 然后哪怕你手速再快 一秒内你点了100次 我也只执行一次
+        let timerOut
+        return function () {
+            if (!timerOut) {
+                timerOut = setTimeout(function () {
+                    func()
+                    timerOut = null
+                }, wait)
+            }
+        }
+    }
+    function handle () {
+        console.log(Math.random())
+    }
+    document.getElementById('button').onclick = throttle(handle, 2000)
+</script>
+</body>
+</html>

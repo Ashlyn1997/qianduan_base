@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圣杯布局----grid</title>
+    <style>
+        body{
+            display:grid;
+        }
+        header{
+            grid-row:1;
+            grid-column:1/5;
+            background-color: antiquewhite;
+        }
+        footer{
+            grid-row:3;
+            grid-column:1/5;
+            background-color: antiquewhite;
+        }
+
+        .left{
+            grid-row:2;
+            grid-column:1/2;
+            background-color: burlywood;
+        }
+
+        .right{
+            grid-row:2;
+            grid-column:4/5;
+            background-color: burlywood;
+        }
+
+        .middle{
+            grid-row:2;
+            grid-column:2/4;
+            background-color: #b0f9c2;
+        }
+    </style>
+</head>
+<body>
+<header>header</header>
+<div class="left">left</div>
+<div class="middle">middle</div>
+<div class="right">right</div>
+<footer>footer</footer>
+</body>
+</html>
