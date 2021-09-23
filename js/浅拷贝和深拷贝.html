@@ -57,7 +57,43 @@
             return target
         }
     }
+    // 用WeakMap代替Map，WeakMap对象是一组键/值对的集合，其中的键是弱引用的，其键必须是对象，而值可以是任意的
+    function deepClone(obj, map = new WeakMap()) {
+        if (obj === null) return obj
+        if (obj instanceof Date) return new Date(obj)
+        if (obj instanceof RegExp) return new RegExp(obj)
+        if (typeof obj !== 'object') return obj
 
+        // 解决对象循环引用
+        if (map.has(obj)) return map.get(obj)
+
+        const cloneObj = new obj.constructor()
+        map.get(obj, cloneObj)
+
+        // 克隆set
+        if (obj instanceof Set) {
+            obj.forEach(value => {
+                cloneObj.add(deepClone(value, map))
+            })
+            return cloneObj
+        }
+
+        // 克隆map
+        if (obj instanceof Map) {
+            obj.forEach((value, key) => {
+                cloneObj.set(key, deepClone(value))
+            })
+            return cloneObj
+        }
+
+        // 克隆对象和数组
+        for (let key in obj) {
+            if(obj.hasOwnProperty(key)) {
+                cloneObj[key] = deepClone(obj[key], map)
+            }
+        }
+        return cloneObj
+    }
 </script>  
 </body>
 </html>
